@@ -1,3 +1,4 @@
+use lazy_static;
 use std::fmt::Display;
 use std::fs;
 use std::io;
@@ -135,8 +136,19 @@ pub fn key_from_escape_codes(buf: &[u8]) -> Key {
     }
 }
 
+lazy_static! {
+    static ref IS_LANG_UTF8: bool = {
+        match ::std::env::var("LANG") {
+            Ok(lang) => lang.to_uppercase().ends_with("UTF-8"),
+            _ => false,
+        }
+    };
+}
+
 pub fn wants_emoji() -> bool {
-    cfg!(target_os = "macos")
+    // cfg!(target_os = "macos") || (cfg!(target_os = "linux") &&
+    // *is_lang_utf8)
+    *IS_LANG_UTF8
 }
 
 pub fn set_title<T: Display>(title: T) {

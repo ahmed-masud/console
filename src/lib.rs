@@ -74,6 +74,7 @@ pub use crate::utils::{
     truncate_str, Alignment, AnsiCodeIterator, Attribute, Color, Emoji, Style, StyledObject,
 };
 
+#[macro_use] extern crate lazy_static;
 mod common_term;
 mod kb;
 mod term;
